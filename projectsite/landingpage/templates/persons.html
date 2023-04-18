@@ -1,0 +1,204 @@
+{% extends "./layouts/main.html" %} {% block content %}
+
+<div class="d-flex justify-content-between align-items-center mb-2">
+  <h1>Persons</h1>
+  <button
+    type="button"
+    class="btn btn-primary"
+    data-bs-toggle="modal"
+    data-bs-target="#add_person_modal"
+  >
+    Add Person
+  </button>
+
+  <!-- Add Person Modal -->
+  <div
+    class="modal fade"
+    id="add_person_modal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Add Person</h1>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form method="POST" action="/persons/add">
+            {% csrf_token %}
+            <div class="mb-2">
+              <label for="firstname" class="form-label">Firstname</label>
+              <input
+                type="text"
+                class="form-control"
+                id="firstname"
+                name="firstname"
+                aria-describedby="emailHelp"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="lastname" class="form-label">Lastname</label>
+              <input
+                type="text"
+                class="form-control"
+                id="lastname"
+                name="lastname"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="height" class="form-label">Hieght</label>
+              <input
+                type="number"
+                class="form-control"
+                id="height"
+                name="height"
+                step="any"
+              />
+            </div>
+            <div class="mb-2">
+              <label for="weight" class="form-label">Weight</label>
+              <input
+                type="number"
+                class="form-control"
+                id="weight"
+                name="weight"
+                step="any"
+              />
+            </div>
+            <div class="text-center mt-4">
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Firstname</th>
+      <th scope="col">Lastname</th>
+      <th scope="col">Height</th>
+      <th scope="col">Weight</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for person in persons %}
+    <tr>
+      <th scope="row">{{person.id}}</th>
+      <td>{{person.firstname}}</td>
+      <td>{{person.lastname}}</td>
+      <td>{{person.height}}</td>
+      <td>{{person.weight}}</td>
+      <td class="d-flex align-items-center">
+        <form action="/persons/remove" method="POST">
+          {% csrf_token %}
+          <input type="hidden" name="person_id" value="{{person.id}}" />
+          <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
+
+        <button
+          type="button"
+          class="btn btn-primary btn-sm ms-2"
+          data-bs-toggle="modal"
+          data-bs-target="#update_person_modal_{{person.id}}"
+        >
+          Update Person
+        </button>
+
+        <!-- Update Person Modal -->
+        <div
+          class="modal fade"
+          id="update_person_modal_{{person.id}}"
+          tabindex="-1"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">
+                  Update Person
+                </h1>
+                <button
+                  type="button"
+                  class="btn-close"
+                  data-bs-dismiss="modal"
+                  aria-label="Close"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <form method="POST" action="/persons/update">
+                  {% csrf_token %}
+                  <input type="hidden" name="person_id" value="{{person.id}}" />
+                  <div class="mb-2">
+                    <label for="firstname" class="form-label">Firstname</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="firstname"
+                      name="firstname"
+                      value="{{person.firstname}}"
+                      aria-describedby="emailHelp"
+                    />
+                  </div>
+                  <div class="mb-2">
+                    <label for="lastname" class="form-label">Lastname</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="lastname"
+                      name="lastname"
+                      value="{{person.lastname}}"
+                    />
+                  </div>
+                  <div class="mb-2">
+                    <label for="height" class="form-label">Hieght</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="height"
+                      name="height"
+                      value="{{person.height}}"
+                      step="any"
+                    />
+                  </div>
+                  <div class="mb-2">
+                    <label for="weight" class="form-label">Weight</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="weight"
+                      name="weight"
+                      value="{{person.weight}}"
+                      step="any"
+                    />
+                  </div>
+                  <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-primary">
+                      Update
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock%}

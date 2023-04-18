@@ -1,0 +1,24 @@
+{% extends "./layouts/main.html" %} {% block content %}
+<h1 class="my-2 mb-4 text-center">Baseball Application</h1>
+
+<div class="row mb-5">
+  <div class="text-white rounded-2 bg-success border p-5 text-center col-md-6">
+    <h1>{{persons_count}}</h1>
+    <h3>Person</h3>
+  </div>
+  <div class="text-white rounded-2 bg-danger border p-5 text-center col-md-6">
+    <h1>{{positions_count}}</h1>
+    <h3>Positions</h3>
+  </div>
+  <div class="text-white rounded-2 bg-primary border p-5 text-center col-md-6">
+    <h1>{{clubs_count}}</h1>
+    <h3>Clubs</h3>
+  </div>
+  <div
+    class="text-white rounded-2 bg-secondary border p-5 text-center col-md-6"
+  >
+    <h1>{{plays_count}}</h1>
+    <h3>Plays</h3>
+  </div>
+</div>
+{% endblock%}
